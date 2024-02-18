@@ -17,6 +17,7 @@
 #include "engine/render.h"
 #include "engine/animation.h"
 #include "engine/audio.h"
+#include "engine/world.h"
 
 void reset(void);
 
@@ -370,12 +371,15 @@ int main(int argc, char* argv[])
     Sprite_Sheet sprite_sheet_enemy_large;
     Sprite_Sheet sprite_sheet_props;
     Sprite_Sheet sprite_sheet_fire;
+    Sprite_Sheet sprite_sheet_world;
+
     render_sprite_sheet_init(&sprite_sheet_player, "assets/player.png", 24, 24);
     render_sprite_sheet_init(&sprite_sheet_map, "assets/map.png", 640, 360);
     render_sprite_sheet_init(&sprite_sheet_enemy_small, "assets/enemy_small.png", 24, 24);
     render_sprite_sheet_init(&sprite_sheet_enemy_large, "assets/enemy_large.png", 40, 40);
     render_sprite_sheet_init(&sprite_sheet_props, "assets/props_16x16.png", 16, 16);
     render_sprite_sheet_init(&sprite_sheet_fire, "assets/fire.png", 32, 64);
+    //render_sprite_sheet_init(&sprite_sheet_world, "assets/world.png", 24, 24);
 
     usize adef_player_walk_id = animation_definition_create(&sprite_sheet_player, 0.1, 0, (u8[]) { 1, 2, 3, 4, 5, 6, 7 }, 7);
     usize adef_player_idle_id = animation_definition_create(&sprite_sheet_player, 0, 0, (u8[]) { 0 }, 1);
@@ -409,6 +413,7 @@ int main(int argc, char* argv[])
             .sfx = SOUND_SHOOT
     };
 
+    world_init();
     reset();
 
     while (!should_quit)
@@ -468,6 +473,7 @@ int main(int argc, char* argv[])
 
         render_begin();
 
+        world_render();
         // Render terrain/map.
         render_sprite_sheet_frame(&sprite_sheet_map, 0, 0, (vec2) { render_width / 2.0, render_height / 2.0 }, false, (vec4) { 1, 1, 1, 0.2 }, texture_slots);
 

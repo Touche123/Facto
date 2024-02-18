@@ -145,6 +145,7 @@
     <ClCompile Include="src\engine\render\render_init.c" />
     <ClCompile Include="src\engine\render\render_util.c" />
     <ClCompile Include="src\engine\time\time.c" />
+    <ClCompile Include="src\engine\world\world.c" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.c" />
   </ItemGroup>
@@ -165,6 +166,7 @@
     <ClInclude Include="src\engine\types.h" />
     <ClInclude Include="src\engine\ui.h" />
     <ClInclude Include="src\engine\util.h" />
+    <ClInclude Include="src\engine\world.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
