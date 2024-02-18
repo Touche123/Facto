@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
 
     u32 body_count = 100;
 
+    printf("Acc init ======================================\n");
     for (u32 i = 0; i < body_count; ++i) {
         usize body_index = physics_body_create(
             (vec2){ rand() % (i32)global.render.width, rand() % (i32)global.render.height },
@@ -41,11 +42,13 @@ int main(int argc, char *argv[]) {
             Body *body = physics_body_get(body_index);
             body->acceleration[0] = rand() % 200 - 100;
             body->acceleration[1] = rand() % 200 - 100;
+            printf("Index : %i, Acc x: %f, Acc y: %f \n", i, body->acceleration[0], body->acceleration[1]);
     }
+    printf("Acc init ======================================\n");
 
     pos[0] = global.render.width * 0.5;
     pos[1] = global.render.height * 0.5;
-
+    
     while (!should_quit) {
         time_update();
 
@@ -71,8 +74,10 @@ int main(int argc, char *argv[]) {
 
         render_quad(pos, (vec2){50, 50}, (vec4){0, 1, 0, 1});
 
-        for (u32 i = 0; i < body_count; ++i) {
-			Body *body = physics_body_get(i);
+        for (u32 i = 0; i < body_count; ++i)
+        {
+            Body* body = physics_body_get(i);
+
 			render_quad(body->aabb.position, body->aabb.half_size, (vec4){1, 0, 0, 1});
 
 			if (body->aabb.position[0] > global.render.width || body->aabb.position[0] < 0)
@@ -88,6 +93,8 @@ int main(int argc, char *argv[]) {
 				body->velocity[1] = 500;
 			if (body->velocity[1] < -500)
 				body->velocity[1] = -500;
+
+            printf("Index : %i, Acc x: %f, Acc y: %f \n", i, body->acceleration[0], body->acceleration[1]);
 		}
 
         render_end(); 

@@ -6,6 +6,7 @@
 #include "physics_internal.h"
 
 static Physics_State_Internal state;
+int timeframe = 0;
 
 void physics_init(void)
 {
@@ -18,11 +19,18 @@ void physics_update(void)
 
 	for (u32 i = 0; i < state.body_list->len; ++i) {
 		body = array_list_get(state.body_list, i);
+
+		if (timeframe <= 0)
+			printf("Index: %i, Vel x: %f, Vel y: %f \n", i, body->acceleration[0], body->acceleration[1]);
+
 		body->velocity[0] += body->acceleration[0] * global.time.delta;
 		body->velocity[1] += body->acceleration[1] * global.time.delta;
 		body->aabb.position[0] += body->velocity[0] * global.time.delta;
 		body->aabb.position[1] += body->velocity[1] * global.time.delta;
+
 	}
+
+	timeframe = 1;
 }
 
 usize physics_body_create(vec2 position, vec2 size)
@@ -35,11 +43,9 @@ usize physics_body_create(vec2 position, vec2 size)
 		.velocity = { 0, 0 },
 	};
 
-	array_list_append(state.body_list, &body);
-
-	//if (array_list_append(state.body_list, &body) == (usize)-1) {
-	//	ERROR_EXIT("Could not append body to list\n");
-	//}
+	if (array_list_append(state.body_list, &body) == (usize)-1) {
+		ERROR_EXIT("Could not append body to list\n");
+	}
 		
 
 	return state.body_list->len - 1;
