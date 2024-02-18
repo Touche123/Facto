@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="src\engine\config\config.c" />
     <ClCompile Include="src\engine\containers\array_list.c" />
+    <ClCompile Include="src\engine\entity\entity.c" />
     <ClCompile Include="src\engine\global.c" />
     <ClCompile Include="src\engine\input\input.c" />
     <ClCompile Include="src\engine\io\io.c" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="src\engine\array_list.h" />
     <ClInclude Include="src\engine\config.h" />
+    <ClInclude Include="src\engine\entity.h" />
     <ClInclude Include="src\engine\global.h" />
     <ClInclude Include="src\engine\input.h" />
     <ClInclude Include="src\engine\io.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="src\engine\render\render_internal.h" />
     <ClInclude Include="src\engine\time.h" />
     <ClInclude Include="src\engine\types.h" />
+    <ClInclude Include="src\engine\ui.h" />
     <ClInclude Include="src\engine\util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
