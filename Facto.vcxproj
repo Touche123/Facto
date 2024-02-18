@@ -133,9 +133,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\config\config.c" />
+    <ClCompile Include="src\engine\containers\array_list.c" />
     <ClCompile Include="src\engine\global.c" />
     <ClCompile Include="src\engine\input\input.c" />
     <ClCompile Include="src\engine\io\io.c" />
+    <ClCompile Include="src\engine\physics\physics.c" />
     <ClCompile Include="src\engine\render\render.c" />
     <ClCompile Include="src\engine\render\render_init.c" />
     <ClCompile Include="src\engine\render\render_util.c" />
@@ -144,10 +146,13 @@
     <ClCompile Include="src\main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\array_list.h" />
     <ClInclude Include="src\engine\config.h" />
     <ClInclude Include="src\engine\global.h" />
     <ClInclude Include="src\engine\input.h" />
     <ClInclude Include="src\engine\io.h" />
+    <ClInclude Include="src\engine\physics.h" />
+    <ClInclude Include="src\engine\physics\physics_internal.h" />
     <ClInclude Include="src\engine\render.h" />
     <ClInclude Include="src\engine\render\render_internal.h" />
     <ClInclude Include="src\engine\time.h" />
