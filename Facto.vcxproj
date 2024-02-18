@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_mixer.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,6 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\animation\animation.c" />
+    <ClCompile Include="src\engine\audio\audio.c" />
     <ClCompile Include="src\engine\config\config.c" />
     <ClCompile Include="src\engine\containers\array_list.c" />
     <ClCompile Include="src\engine\entity\entity.c" />
@@ -147,7 +149,9 @@
     <ClCompile Include="src\main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\animation.h" />
     <ClInclude Include="src\engine\array_list.h" />
+    <ClInclude Include="src\engine\audio.h" />
     <ClInclude Include="src\engine\config.h" />
     <ClInclude Include="src\engine\entity.h" />
     <ClInclude Include="src\engine\global.h" />
