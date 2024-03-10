@@ -16,6 +16,7 @@ usize entity_create(vec2 position, vec2 size, vec2 sprite_offset, vec2 velocity,
 		Entity *entity = array_list_get(entity_list, i);
 		if (!entity->is_active) {
 			id = i;
+			entity->is_bleeding = false;
 			break;
 		}
 	}
@@ -33,6 +34,7 @@ usize entity_create(vec2 position, vec2 size, vec2 sprite_offset, vec2 velocity,
 		.animation_id = animation_id, 
 		.body_id = physics_body_create(position, size, velocity, collision_layer, collision_mask, is_kinematic, on_hit, on_hit_static, id),
 		.sprite_offset = { sprite_offset[0], sprite_offset[1] },
+		.is_bleeding = false,
 	};
 
 	return id;
@@ -52,12 +54,19 @@ void entity_reset(void) {
 bool entity_damage(usize entity_id, u8 amount)
 {
 	Entity* entity = entity_get(entity_id);
+	if (!entity->is_active)
+	{
+		entity->is_bleeding = false;
+		return;
+	}
+
 	if (amount >= entity->health)
 	{
+		entity->is_bleeding = false;
 		entity_destroy(entity_id);
 		return true;
 	}
-
+	
 	entity->health -= amount;
 	return false;
 }
@@ -65,6 +74,29 @@ bool entity_damage(usize entity_id, u8 amount)
 void entity_destroy(usize entity_id)
 {
 	Entity* entity = entity_get(entity_id);
+	entity->is_bleeding = false;
 	physics_body_destroy(entity->body_id);
 	entity->is_active = false;
+}
+
+void entity_update(f32 dt)
+{
+	for (usize i = 0; i < entity_list->len; ++i)
+	{
+		Entity* entity = array_list_get(entity_list, i);
+		
+		if (entity->is_active)
+		{
+			if (entity->is_bleeding)
+			{
+				damage_tick += dt;
+				if (damage_tick < 5)
+					return;
+				
+				entity_damage(entity->body_id, 100);
+			}
+		} 
+	}
+
+	damage_tick = 0;
 }

@@ -102,17 +102,23 @@ static u8 projectile_mask = COLLISION_LAYER_ENEMY | COLLISION_LAYER_TERRAIN;
 
 void projectile_on_hit(Body* self, Body* other, Hit hit)
 {
+    if (!other->is_active)
+        return;
+
     if (other->collision_layer == COLLISION_LAYER_ENEMY)
     {
         Entity* projectile = entity_get(self->entity_id);
         Entity* enemy = entity_get(other->entity_id);
+        enemy->is_bleeding = true;
         if (projectile->animation_id == anim_projectile_small_id)
         {
             if (entity_damage(other->entity_id, 1))
             {
+                enemy->is_bleeding = false;
                 audio_sound_play(SOUND_ENEMY_DEATH);
             }
         }
+        
         audio_sound_play(SOUND_HURT);
     }
 }
@@ -120,6 +126,7 @@ void projectile_on_hit(Body* self, Body* other, Hit hit)
 void projectile_on_hit_static(Body* self, Static_Body* other, Hit hit)
 {
     Entity* projectile = entity_get(self->entity_id);
+
     if (projectile->animation_id == anim_projectile_small_id)
     {
         audio_sound_play(SOUND_SHOOT);
@@ -285,7 +292,9 @@ void spawn_enemy(bool is_small, bool is_enraged, bool is_flipped)
     vec2 velocity = { is_flipped ? -speed : speed, 0 };
     usize id = entity_create(position, size, sprite_offset, velocity, COLLISION_LAYER_ENEMY, enemy_mask, false, animation_id, NULL, on_hit_static);
     Entity* entity = entity_get(id);
+    entity->health = 100;
     entity->is_enraged = is_enraged;
+    entity->is_bleeding = false;
 }
 
 void fire_on_hit(Body* self, Body* other, Hit hit)
@@ -452,6 +461,7 @@ int main(int argc, char* argv[])
         input_update();
         input_handle(body_player);
         physics_update();
+        entity_update(global.time.delta);
 
         animation_update(global.time.delta);
 
@@ -473,7 +483,7 @@ int main(int argc, char* argv[])
 
         render_begin();
 
-        world_render();
+        //world_render();
         // Render terrain/map.
         render_sprite_sheet_frame(&sprite_sheet_map, 0, 0, (vec2) { render_width / 2.0, render_height / 2.0 }, false, (vec4) { 1, 1, 1, 0.2 }, texture_slots);
 

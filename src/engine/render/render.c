@@ -48,8 +48,8 @@ SDL_Window *render_init(void) {
 	return window;
 }
 
-static i32 find_texture_slot(u32 texture_slots[8], u32 texture_id) {
-    for (i32 i = 1; i < 8; ++i) {
+static i32 find_texture_slot(u32 texture_slots[9], u32 texture_id) {
+    for (i32 i = 1; i < 9; ++i) {
         if (texture_slots[i] == texture_id) {
             return i;
         }
@@ -58,7 +58,7 @@ static i32 find_texture_slot(u32 texture_slots[8], u32 texture_id) {
     return -1;
 }
 
-static i32 try_insert_texture(u32 texture_slots[8], u32 texture_id) {
+static i32 try_insert_texture(u32 texture_slots[9], u32 texture_id) {
     i32 index = find_texture_slot(texture_slots, texture_id);
     if (index > 0) {
         return index;
@@ -135,7 +135,7 @@ static void append_quad(vec2 position, vec2 size, vec4 texture_coordinates, vec4
 	});
 }
 
-void render_end(SDL_Window *window, u32 batch_texture_ids[8]) {
+void render_end(SDL_Window *window, u32 batch_texture_ids[9]) {
 	render_batch(list_batch->items, list_batch->len, batch_texture_ids);
 
 	SDL_GL_SwapWindow(window);
