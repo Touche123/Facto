@@ -114,7 +114,6 @@ void projectile_on_hit(Body* self, Body* other, Hit hit)
         {
             if (entity_damage(other->entity_id, 1))
             {
-                enemy->is_bleeding = false;
                 audio_sound_play(SOUND_ENEMY_DEATH);
             }
         }
@@ -294,7 +293,6 @@ void spawn_enemy(bool is_small, bool is_enraged, bool is_flipped)
     Entity* entity = entity_get(id);
     entity->health = 100;
     entity->is_enraged = is_enraged;
-    entity->is_bleeding = false;
 }
 
 void fire_on_hit(Body* self, Body* other, Hit hit)
